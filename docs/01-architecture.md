@@ -24,7 +24,8 @@ Les pages lisent les données sur le serveur. Aucune donnée ni règle d'accès 
 | `src/components/layout` | En-tête, pied de page. |
 | `src/features/marketplace` | Cartes produit, grille, filtres de recherche. |
 | `src/features/creators` | Cartes et rangées créateurs. |
-| `src/features/community` | Partage. Favoris et suivis au Sprint 2. |
+| `src/features/community` | Partage, favoris, suivis, état personnel côté navigateur. |
+| `src/features/account` | Formulaires et Server Actions d'authentification. |
 | `src/features/creator-space` | Espace créateur. Simulateur de revenus aujourd'hui, dashboard au Sprint 6. |
 | `src/features/admin` | Centre de contrôle, Sprint 7. |
 | `src/features/business` | Espace professionnel, phase ultérieure. |
@@ -55,6 +56,23 @@ Les pages lisent les données sur le serveur. Aucune donnée ni règle d'accès 
 5. Rejouer les tests de `src/services/repositories/demo/catalog.test.ts` contre la nouvelle implémentation : ils décrivent le comportement attendu.
 
 La recherche en mémoire (`src/lib/search`) devient une requête SQL : `tsvector` + `unaccent` pour le texte, index sur prix, catégorie, créateur.
+
+## Authentification (Sprint 2)
+
+```
+Formulaire ─► Server Action (validation zod, limitation des tentatives)
+                 └─► AuthProvider ─┬─ memory   : local, développement et tests
+                                   └─ supabase : à brancher (projet et clés à fournir)
+Cookie « signe_session » = jeton opaque. La session vit côté serveur.
+```
+
+- `src/services/auth/session.ts` : `getCurrentUser()`, `requireUser()`, `requirePermission()`. Appelés dans chaque page protégée et chaque Server Action.
+- `src/proxy.ts` : contrôle optimiste, redirige `/compte` sans cookie vers la connexion. Jamais la seule barrière.
+- `/admin` répond 404 à toute personne sans `admin.access`. Aucun compte ne peut encore l'obtenir : la double authentification arrive au Sprint 7.
+- L'inscription crée toujours un compte acheteur. Aucun champ de rôle n'est lu depuis le formulaire.
+- Réponses identiques qu'une adresse soit inscrite ou non, jetons à usage unique stockés sous forme d'empreinte, mots de passe en scrypt, révocation des sessions à la réinitialisation.
+- `SIGNE_AUTH_PROVIDER` est obligatoire en production : on ne démarre jamais par erreur sur un stockage en mémoire.
+- Les pages du catalogue restent statiques. L'état personnel (compte, favoris, suivis) est chargé par `/api/moi` dans `CommunityProvider`.
 
 ## Médias
 

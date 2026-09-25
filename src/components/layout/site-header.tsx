@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/primitives";
+import { AccountLink } from "@/features/community/account-link";
 
 const NAV = [
   { href: "/explorer", label: "Explorer" },
@@ -29,7 +30,7 @@ function SearchIcon() {
 
 /**
  * En-tête. Menu mobile en <details> : fonctionne sans JavaScript.
- * Le panier et le compte arrivent avec l'authentification (Sprint 2) et le panier (Sprint 4).
+ * Le panier arrive au Sprint 4.
  */
 export function SiteHeader() {
   return (
@@ -56,6 +57,7 @@ export function SiteHeader() {
           <Link href="/explorer" aria-label="Rechercher" className="grid h-10 w-10 place-items-center rounded-full hover:bg-paper-2 lg:hidden">
             <SearchIcon />
           </Link>
+          <AccountLink />
           <Link href="/devenir-createur" className="hidden rounded-full bg-ink px-4 py-2 text-sm text-paper hover:bg-ink-2 sm:inline-flex">
             Devenir créateur
           </Link>

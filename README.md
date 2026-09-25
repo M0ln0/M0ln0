@@ -10,6 +10,8 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
+En développement, l'authentification utilise un fournisseur local en mémoire : les liens de confirmation et de réinitialisation s'affichent dans le terminal du serveur, et les comptes disparaissent au redémarrage.
+
 ## Vérifier
 
 ```bash
@@ -37,7 +39,7 @@ Découpage des sprints appliqué provisoirement le 25/09/2026, en attente de val
 | --- | --- | --- |
 | 0 | Audit + fondations | Fait |
 | 1 | Catalogue, recherche, architecture initiale, design system | Fait |
-| 2 | Authentification, rôles, favoris, suivi des créateurs | Prochain |
+| 2 | Authentification, rôles, favoris, suivi des créateurs | En cours : reste le branchement Supabase |
 | 3 | Profils utilisateurs, comptes créateurs, catalogue en base, médias | À venir |
 | 4 | Panier, commandes, stock, logique marketplace | À venir |
 | 5 | Paiement marketplace | À venir |

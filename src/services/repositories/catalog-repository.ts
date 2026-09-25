@@ -96,6 +96,14 @@ export interface CatalogRepository {
   listSchools(): Promise<SchoolSummary[]>;
   getSchool(slug: string): Promise<SchoolDetail | null>;
   getHome(): Promise<HomeData>;
+  /** Cartes produit publiques pour une liste d'identifiants, dans l'ordre donné. */
+  getProductCards(ids: string[]): Promise<ProductCardView[]>;
+  /** Cartes créateur publiques pour une liste d'identifiants, dans l'ordre donné. */
+  getCreatorCards(ids: string[]): Promise<CreatorCard[]>;
+  /** Dernières pièces publiées par ces créateurs. */
+  getNewArrivalsFrom(creatorIds: string[], limit: number): Promise<ProductCardView[]>;
+  isPublicProduct(id: string): Promise<boolean>;
+  isPublicCreator(id: string): Promise<boolean>;
   /** Slugs publics, pour la génération statique et le sitemap. */
   listPublicSlugs(): Promise<{ products: string[]; creators: string[]; schools: string[] }>;
 }

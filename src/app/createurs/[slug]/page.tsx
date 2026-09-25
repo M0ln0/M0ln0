@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Avatar } from "@/components/ui/avatar";
 import { Media } from "@/components/ui/media";
 import { Badge, Container, SectionHeader, Stars } from "@/components/ui/primitives";
+import { FollowButton } from "@/features/community/follow-button";
 import { ShareMenu } from "@/features/community/share-menu";
 import { ProductGrid } from "@/features/marketplace/product-card";
 import { formatCount, formatDate, formatMonthYear } from "@/lib/format";
@@ -100,7 +101,10 @@ export default async function CreatorPage({ params }: PageProps<"/createurs/[slu
                 ))}
               </ul>
             )}
-            <ShareMenu className="ml-auto" path={`/createurs/${creator.slug}`} title={creator.brandName} text={`Découvrez ${creator.brandName}, ${creator.specialty.toLowerCase()} à ${creator.city}, sur Signé`} />
+            <div className="flex gap-2 sm:ml-auto">
+              <FollowButton creatorId={creator.id} name={creator.brandName} />
+              <ShareMenu path={`/createurs/${creator.slug}`} title={creator.brandName} text={`Découvrez ${creator.brandName}, ${creator.specialty.toLowerCase()} à ${creator.city}, sur Signé`} />
+            </div>
           </div>
         </Container>
       </header>

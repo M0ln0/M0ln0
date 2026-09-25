@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { Avatar } from "@/components/ui/avatar";
 import { Media } from "@/components/ui/media";
 import { Badge, ButtonLink, Container, SectionHeader, Stars } from "@/components/ui/primitives";
+import { FavoriteButton } from "@/features/community/favorite-button";
+import { FollowButton } from "@/features/community/follow-button";
 import { ShareMenu } from "@/features/community/share-menu";
 import { ProductGrid } from "@/features/marketplace/product-card";
 import { cn } from "@/lib/cn";
@@ -155,6 +157,7 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
+              <FavoriteButton productId={product.id} title={product.title} variant="full" />
               <ShareMenu path={`/produits/${product.slug}`} title={product.title} text={`${product.title} par ${creator.brandName} sur Signé`} />
             </div>
 
@@ -193,9 +196,12 @@ export default async function ProductPage({ params }: PageProps<"/produits/[slug
             <p className="mt-4 max-w-2xl font-display text-2xl leading-snug">« {creator.motivation} »</p>
             <p className="mt-4 max-w-2xl text-ink-2">{creator.bio}</p>
             <p className="mt-4 font-mono text-xs text-ink-3">{formatCount(creator.followerCount)} abonnés</p>
-            <ButtonLink href={`/createurs/${creator.slug}`} variant="outline" className="mt-6">
-              Découvrir {creator.realName.split(" ")[0]}
-            </ButtonLink>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <FollowButton creatorId={creator.id} name={creator.brandName} />
+              <ButtonLink href={`/createurs/${creator.slug}`} variant="outline">
+                Découvrir {creator.realName.split(" ")[0]}
+              </ButtonLink>
+            </div>
           </div>
         </Container>
       </section>

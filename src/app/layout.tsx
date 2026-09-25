@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { CommunityProvider } from "@/features/community/community-provider";
 import "./globals.css";
 
 const sans = Geist({ variable: "--font-geist-sans", subsets: ["latin", "latin-ext"] });
@@ -34,11 +35,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">
           Aller au contenu
         </a>
-        <SiteHeader />
-        <main id="contenu" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <CommunityProvider>
+          <SiteHeader />
+          <main id="contenu" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </CommunityProvider>
       </body>
     </html>
   );
