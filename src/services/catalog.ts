@@ -22,3 +22,8 @@ export const listSchools = cache(() => repo().listSchools());
 export const getSchool = cache((slug: string) => repo().getSchool(slug));
 export const getHome = cache(() => repo().getHome());
 export const listPublicSlugs = cache(() => repo().listPublicSlugs());
+export const getProductCards = (ids: string[]) => repo().getProductCards(ids);
+export const getCreatorCards = (ids: string[]) => repo().getCreatorCards(ids);
+export const getNewArrivalsFrom = (creatorIds: string[], limit = 8) => repo().getNewArrivalsFrom(creatorIds, limit);
+export const isPublicProduct = (id: string) => repo().isPublicProduct(id);
+export const isPublicCreator = (id: string) => repo().isPublicCreator(id);

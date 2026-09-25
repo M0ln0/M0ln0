@@ -62,4 +62,27 @@ describe("dépôt catalogue démo", () => {
     const r = await repo.searchProducts(parseProductQuery({ q: "pull" }));
     expect(r.items[0].product.title).toBe("Pull Carreaux Rouges");
   });
+
+  it("retrouve des cartes par identifiant, dans l'ordre, sans les inconnus", async () => {
+    const [a, b] = demo.products;
+    const cards = await repo.getProductCards([b.id, "inconnu", a.id]);
+    expect(cards.map((c) => c.product.id)).toEqual([b.id, a.id]);
+    const creators = await repo.getCreatorCards(["cr-kori", "cr-atelier-nova"]);
+    expect(creators.map((c) => c.creator.slug)).toEqual(["kori", "atelier-nova"]);
+  });
+
+  it("liste les nouveautés des créateurs suivis", async () => {
+    const r = await repo.getNewArrivalsFrom(["cr-kori"], 2);
+    expect(r).toHaveLength(2);
+    expect(r.every((c) => c.creator.slug === "kori")).toBe(true);
+    expect(r[0].product.createdAt >= r[1].product.createdAt).toBe(true);
+  });
+
+  it("n'accepte que des produits et créateurs publics", async () => {
+    expect(await repo.isPublicProduct(demo.products[0].id)).toBe(true);
+    expect(await repo.isPublicProduct("prd-inexistant")).toBe(false);
+    expect(await repo.isPublicCreator("cr-kori")).toBe(true);
+    const hidden = createDemoCatalogRepository({ ...demo, products: demo.products.map((p, i) => (i === 0 ? { ...p, status: "hidden" as const } : p)) });
+    expect(await hidden.isPublicProduct(demo.products[0].id)).toBe(false);
+  });
 });

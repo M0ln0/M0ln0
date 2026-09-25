@@ -210,6 +210,29 @@ export function createDemoCatalogRepository(data: DemoDataset, options: DemoOpti
       };
     },
 
+    async getProductCards(ids) {
+      const byId = new Map(publicProducts().map((p) => [p.id, p]));
+      return ids.map((id) => byId.get(id)).filter((p): p is Product => !!p).map(card);
+    },
+
+    async getCreatorCards(ids) {
+      const byId = new Map(publicCreators().map((c) => [c.id, c]));
+      return ids.map((id) => byId.get(id)).filter((c): c is Creator => !!c).map((c) => creatorCard(c));
+    },
+
+    async getNewArrivalsFrom(creatorIds, limit) {
+      const wanted = new Set(creatorIds);
+      return publicProducts().filter((p) => wanted.has(p.creatorId)).sort(byNewest).slice(0, limit).map(card);
+    },
+
+    async isPublicProduct(id) {
+      return publicProducts().some((p) => p.id === id);
+    },
+
+    async isPublicCreator(id) {
+      return publicCreators().some((c) => c.id === id);
+    },
+
     async listPublicSlugs() {
       return {
         products: publicProducts().map((p) => p.slug),

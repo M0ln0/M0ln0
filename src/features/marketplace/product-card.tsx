@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { Media } from "@/components/ui/media";
 import { Badge } from "@/components/ui/primitives";
+import { FavoriteButton } from "@/features/community/favorite-button";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
 import { editionDetail } from "@/lib/labels";
@@ -26,6 +27,7 @@ export function ProductCard({ view, priority, className }: { view: ProductCardVi
           {soldOut && <Badge>Épuisé</Badge>}
           {!soldOut && lastOne && product.edition !== "unique" && <Badge tone="signature">Dernière pièce</Badge>}
         </div>
+        <FavoriteButton productId={product.id} title={product.title} className="absolute right-2 top-2 z-10" />
       </div>
       <div className="mt-3 flex items-center gap-2">
         <Avatar media={creator.portrait} size={22} />
